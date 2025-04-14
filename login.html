@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onika - Login</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #0a192f;
@@ -16,15 +17,39 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(100, 255, 218, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(100, 255, 218, 0.1) 0%, transparent 20%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(45deg, transparent 49%, rgba(100, 255, 218, 0.1) 50%, transparent 51%);
+            animation: glitch 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes glitch {
+            0% { transform: translateX(-25%) translateY(0); }
+            100% { transform: translateX(0) translateY(-25%); }
         }
 
         .login-container {
-            background: #112240;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            background: rgba(17, 34, 64, 0.85);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.3);
             position: relative;
         }
 
@@ -32,69 +57,107 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .logo img {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.6));
         }
 
         .logo-text {
-            font-size: 36px;
+            font-size: 38px;
             font-weight: bold;
-            font-family: "Pacifico", cursive;
-            background: linear-gradient(to right, #ffae00, #ff5500);
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(to right, #64ffda, #00a3ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 4px 4px 6px rgba(255, 87, 34, 0.6);
-            letter-spacing: 1px;
-            cursor: pointer;
+            text-shadow: 0 0 15px rgba(100, 255, 218, 0.4);
+            letter-spacing: 2px;
         }
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .tabs {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            background: rgba(13, 25, 48, 0.5);
+            border-radius: 10px;
+            padding: 4px;
+            position: relative;
+            overflow: hidden;
         }
 
         .tab {
             flex: 1;
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             cursor: pointer;
-            border-bottom: 2px solid #1d3557;
+            border-radius: 8px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         .tab.active {
-            border-bottom: 2px solid #64ffda;
-            color: #64ffda;
+            color: #112240;
+        }
+
+        .tab-slider {
+            position: absolute;
+            height: 36px;
+            background: #64ffda;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.17, 0.67, 0.5, 1.25);
+            top: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
         }
 
         .form-container {
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            position: relative;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            color: #64ffda;
         }
 
         input, select {
             width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
+            padding: 12px 15px;
+            background: rgba(8, 15, 30, 0.6);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 8px;
             box-sizing: border-box;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #64ffda;
+            box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.3);
         }
 
         .error-message {
@@ -106,18 +169,41 @@
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: #64ffda;
             color: #112240;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
         }
 
         button:hover {
             background: #52d3ba;
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+            transform: translateY(-2px);
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         .register-link {
@@ -139,24 +225,35 @@
             text-align: center;
             margin-top: 10px;
             display: none;
+            padding: 10px;
+            background: rgba(100, 255, 218, 0.1);
+            border-radius: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(100, 255, 218, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
         }
 
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .divider::before,
         .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid #1d3557;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.3);
         }
 
         .divider span {
             padding: 0 10px;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .google-btn {
@@ -164,14 +261,15 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: white;
             color: #444;
-            border-radius: 5px;
+            border-radius: 8px;
             border: 1px solid #ddd;
             margin-top: 15px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s ease;
         }
 
         .google-btn img {
@@ -186,72 +284,141 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: white;
             color: #444;
-            border-radius: 5px;
+            border-radius: 8px;
             border: 1px solid #ddd;
             margin-top: 15px;
             cursor: pointer;
             font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
         
         .google-signin-button:hover {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             background-color: #f7f7f7;
+            transform: translateY(-2px);
         }
         
         .google-signin-button img {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             margin-right: 10px;
         }
 
-        /* Gaya untuk tombol kembali */
+        /* Back button styling */
         .back-button {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            display: flex;
-            align-items: center;
-            background: transparent;
-            border: none;
+            top: 15px;
+            left: 15px;
+            background: rgba(100, 255, 218, 0.2);
             color: #64ffda;
-            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            padding: 5px;
-            width: auto;
-        }
-
-        .back-button img {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+            z-index: 10;
         }
 
         .back-button:hover {
-            opacity: 0.8;
-            background: transparent;
+            background: rgba(100, 255, 218, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.4);
+        }
+
+        .back-arrow {
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid #64ffda;
+            border-bottom: 2px solid #64ffda;
+            transform: rotate(45deg);
+            margin-left: 3px;
+        }
+
+        /* Futuristic elements */
+        .scanner-line {
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, #64ffda, transparent);
+            top: 0;
+            animation: scan 4s infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Corners decoration */
+        .corner {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #64ffda;
+            opacity: 0.7;
+        }
+
+        .corner-tl {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: -2px;
+            right: -2px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: -2px;
+            left: -2px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: -2px;
+            right: -2px;
+            border-left: none;
+            border-top: none;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <!-- Tombol kembali ke index.html -->
+        <!-- Back button -->
         <a href="index.html" class="back-button">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NGZmZGEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTkgMTJINSIvPjxwYXRoIGQ9Ik0xMiAxOWwtNy03IDctNyIvPjwvc3ZnPg==" alt="Kembali">
-            Kembali
+            <div class="back-arrow"></div>
         </a>
+        
+        <!-- Futuristic elements -->
+        <div class="scanner-line"></div>
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
         
         <div class="logo">
             <img src="wolf-logo.png" alt="Logo Serigala">
-            <!-- Menambahkan onclick untuk logo text -->
-            <span class="logo-text" onclick="window.location.href='index.html'">Onika</span>
+            <span class="logo-text">Onika</span>
         </div>
         
         <div class="tabs">
+            <div class="tab-slider"></div>
             <div class="tab active" onclick="showTab('login')">Login</div>
             <div class="tab" onclick="showTab('register')">Register</div>
         </div>
@@ -338,7 +505,7 @@
             document.getElementById('register-success').style.display = 'none';
             
             // Toggle active tab
-            document.querySelectorAll('.tab').forEach(tab => {
+            document.querySelectorAll('.tab').forEach((tab, index) => {
                 tab.classList.remove('active');
             });
             
@@ -346,10 +513,12 @@
                 document.getElementById('login-form').style.display = 'block';
                 document.getElementById('register-form').style.display = 'none';
                 document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.querySelector('.tab-slider').style.left = '4px';
             } else {
                 document.getElementById('login-form').style.display = 'none';
                 document.getElementById('register-form').style.display = 'block';
                 document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.querySelector('.tab-slider').style.left = 'calc(50% + 0px)';
             }
         }
         
