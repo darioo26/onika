@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onika - Online Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #112240;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        
+        .user-dropdown a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+        
+        .user-dropdown a:hover {
+            background-color: #0a192f;
+        }
+        
+        .user-menu:hover .user-dropdown {
+            display: block;
+        }
+        
+        .username-display {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .username-display span {
+            margin-left: 5px;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo" onclick="scrollToProducts()">
+            <img src="wolf-logo.png" alt="Logo Serigala"> 
+            <span class="logo-text">Onika</span>
+        </div>
+        <input type="text" id="search-bar" placeholder="Cari produk..." onkeyup="searchProducts()">
+        <div class="menu-icons">
+            <a href="#" onclick="toggleContact()">📞 Kontak</a>
+            <a href="#" class="cart-icon" onclick="toggleCart()">🛒 <span id="cart-count">0</span></a>
+            <div id="login-container" class="user-menu">
+                <a href="login.html" id="login-button" class="login-icon">👤 Login</a>
+                <div id="user-profile" class="username-display" style="display:none">
+                    👤 <span id="username-text"></span>
+                    <div class="user-dropdown">
+                        <a href="#" onclick="logout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Selamat Datang di <span class="elegant-text">Onika</span></h1>
+    </div>
+<!-- Add this to your existing filter-container div in index.html -->
+<div class="filter-container">
+    <input type="text" id="search-bar" placeholder="Cari produk..." onkeyup="searchProducts()">
+    
+    <select id="category-filter">
+        <option value="">Semua Kategori</option>
+        <!-- Options will be populated by JavaScript -->
+    </select>
+    
+    <select id="material-filter">
+        <option value="">Semua Material</option>
+        <!-- Options will be populated by JavaScript -->
+    </select>
+
+    <select id="sort-price" onchange="sortProducts()">
+        <option value="">Urutkan Harga</option>
+        <option value="low-high">Termurah ke Termahal</option>
+        <option value="high-low">Termahal ke Termurah</option>
+    </select>
+
+    <select id="sort-date" onchange="sortProducts()">
+        <option value="">Urutkan Tanggal</option>
+        <option value="new-old">Terbaru ke Terlama</option>
+        <option value="old-new">Terlama ke Terbaru</option>
+    </select>
+</div>
+    
+    <div class="products" id="products">
+        <div class="product">
+            <img src=https://bimg.akulaku.net/goods/spu/72a4c7350e7a456cbd77068df7f7a4de5118.jpg?w=726&q=80&fit=1 alt="PC Gaming">
+            <h3>PC Gaming Ryzen 5</h3>
+            <p>Rp 8.500.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-28</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'PC Gaming Ryzen 5', 8500000, 'https://bimg.akulaku.net/goods/spu/72a4c7350e7a456cbd77068df7f7a4de5118.jpg?w=726&q=80&fit=1')">Tambah ke Keranjang</button>
+            
+        </div>
+
+        <div class="product">
+            <img src=https://down-id.img.susercontent.com/file/5d16d4090a08eb88bb6af51b37eff17e alt="Jam Tangan">
+            <h3>Jam Tangan Premium</h3>
+            <p>Rp 500.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-25</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Jam Tangan Premium', 500000, 'https://down-id.img.susercontent.com/file/5d16d4090a08eb88bb6af51b37eff17e')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src=https://yangcanggih.com/wp-content/uploads/2019/09/ROG-Strix-Scar-III-Desain.jpg alt="Laptop Gaming">
+            <h3>Laptop Gaming</h3>
+            <p>Rp 12.000.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-27</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Laptop Gaming', 12000000, 'https://yangcanggih.com/wp-content/uploads/2019/09/ROG-Strix-Scar-III-Desain.jpg')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src="https://gadget.jagatreview.com/wp-content/uploads/2024/11/Asus-ROG-Phone-9-Series.webp" alt="Smartphone">
+            <h3>Smartphone Premium</h3>
+            <p>Rp 5.000.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-26</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Smartphone Premium', 5000000, 'https://gadget.jagatreview.com/wp-content/uploads/2024/11/Asus-ROG-Phone-9-Series.webp')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src=https://dorangadget.com/wp-content/uploads/2021/04/Headphone-Gaming-Terbaik-6-400x400.jpg alt="Headphone">
+            <h3>Headphone Wireless</h3>
+            <p>Rp 750.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-28</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Headphone Wireless', 750000, 'https://dorangadget.com/wp-content/uploads/2021/04/Headphone-Gaming-Terbaik-6-400x400.jpg')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src=https://i0.wp.com/pemmzchannel.com/wp-content/uploads/2023/07/2-awa.jpg?resize=1280%2C720&ssl=1 alt="Keyboard Gaming">
+            <h3>Keyboard Gaming</h3>
+            <p>Rp 350.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-24</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Keyboard Gaming', 350000, 'https://i0.wp.com/pemmzchannel.com/wp-content/uploads/2023/07/2-awa.jpg?resize=1280%2C720&ssl=1')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIIkv4_tnQVeelYrbUP9br7XnkCAa3aaXpGQ&s alt="Mouse Gaming">
+            <h3>Mouse Gaming</h3>
+            <p>Rp 250.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-24</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Mouse Gaming', 250000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIIkv4_tnQVeelYrbUP9br7XnkCAa3aaXpGQ&s')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src="https://images.tokopedia.net/img/cache/700/hDjmkQ/2024/10/9/98afd5f5-a7b1-4018-90ab-89bb2d5fb294.png" alt="Monitor Gaming">
+            <h3>Monitor Gaming</h3>
+            <p>Rp 3.500.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-21</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Monitor Gaming', 3500000,  'https://images.tokopedia.net/img/cache/700/hDjmkQ/2024/10/9/98afd5f5-a7b1-4018-90ab-89bb2d5fb294.png')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src=https://images.tokopedia.net/img/JFrBQq/2023/12/5/de375c00-52f4-4491-a1a5-7da10e15f451.jpg alt="Speaker Bluetooth">
+            <h3>Speaker Bluetooth</h3>
+            <p>Rp 450.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-27</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Speaker Bluetooth', 450000, 'https://images.tokopedia.net/img/JFrBQq/2023/12/5/de375c00-52f4-4491-a1a5-7da10e15f451.jpg')">Tambah ke Keranjang</button>
+        </div>
+
+        <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZyD47XUvFtM91iehVte1_Q54fUB1iN6hk5w&s" alt="Kamera Digital">
+            <h3>Kamera Digital</h3>
+            <p>Rp 4.200.000</p>
+            <p class="product-date">Tanggal Upload : 2024-03-20</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" onclick="decreaseQuantity(this)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                <button class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+            <button onclick="addToCartWithQuantity(this, 'Kamera Digital', 4200000, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZyD47XUvFtM91iehVte1_Q54fUB1iN6hk5w&s')">Tambah ke Keranjang</button>
+        </div>
+    </div>
+    
+    <div id="pagination-controls">
+        <button id="prev-btn">Previous</button>
+        <span id="page-number">1</span>
+        <button id="next-btn">Next</button>
+    </div>
+    
+    <div class="cart-overlay" id="cart-overlay">
+        <div class="cart">
+            <h2>Keranjang Belanja</h2>
+            <div class="cart-items-container">
+                <ul id="cart-items"></ul>
+            </div>
+            <p>Total: Rp <span id="cart-total">0</span></p>
+            <button onclick="clearCart()">Kosongkan Keranjang</button>
+            <button onclick="checkout()">Checkout</button>
+            <button class="close-btn" onclick="toggleCart()">Tutup</button>
+        </div>
+    </div>
+    
+
+    <div class="contact-overlay" id="contact-overlay">
+        <div class="contact-box">
+            <h2>Hubungi Kami</h2>
+            <a href="https://wa.me/0895328620093" target="_blank">📱 WhatsApp</a>
+            <a href="https://www.instagram.com/aether_elll/" target="_blank">📸 Instagram</a>
+            <a href="https://www.tiktok.com/@alniers2_" target="_blank">🎵 TikTok</a>
+            <button class="close-btn" onclick="toggleContact()">Tutup</button>
+        </div>
+    </div>
+
+    <button class="floating-btn" onclick="scrollToTop()">🔝</button>
+    <button class="floating-cart-btn" onclick="toggleCart()">🛒 <span id="floating-cart-count">0</span></button>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Tentang Onika</h3>
+                <p>Onika adalah toko online terpercaya dengan berbagai produk berkualitas.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontak Kami</h3>
+                <p>📍 Bandung, Indonesia</p>
+                <p>📞 0895-3286-20093</p>
+                <p>✉️ naelulkirom@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Ikuti Kami</h3>
+                <a href="https://www.instagram.com/aether_elll/" target="_blank">📸 Instagram</a> |
+                <a href="https://www.tiktok.com/@alniers2_" target="_blank">🎵 TikTok</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Onika. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
+    <script src="script.js"></script>
+    <script>
+        // Function to update login display - FIXED VERSION
+        function updateLoginDisplay() {
+            // Get user from sessionStorage (not localStorage) - this matches login.html behavior
+            const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+            const loginButton = document.getElementById("login-button");
+            const userProfile = document.getElementById("user-profile");
+            const usernameText = document.getElementById("username-text");
+            
+            if (currentUser) {
+                // User is logged in
+                loginButton.style.display = "none";
+                userProfile.style.display = "flex";
+                usernameText.textContent = currentUser.name || currentUser.username;
+                
+                // Also save to localStorage for script.js compatibility
+                localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            } else {
+                // User is logged out
+                loginButton.style.display = "block";
+                userProfile.style.display = "none";
+                
+                // Also clear localStorage for consistency
+                localStorage.removeItem("currentUser");
+            }
+        }
+        
+        // Function to handle logout - FIXED VERSION
+        function logout() {
+            // Remove from both storage types for consistency
+            sessionStorage.removeItem("currentUser");
+            localStorage.removeItem("currentUser");
+            
+            updateLoginDisplay();
+            showNotification("Anda telah logout");
+        }
+        
+        // Show notification function for the logout message
+        function showNotification(message) {
+            // Create notification element if it doesn't exist
+            let notification = document.getElementById('notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'notification';
+                notification.style.position = 'fixed';
+                notification.style.bottom = '80px';
+                notification.style.right = '20px';
+                notification.style.backgroundColor = '#64ffda';
+                notification.style.color = '#112240';
+                notification.style.padding = '10px 20px';
+                notification.style.borderRadius = '5px';
+                notification.style.zIndex = '1002';
+                notification.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                notification.style.transition = 'opacity 0.3s ease-in-out';
+                document.body.appendChild(notification);
+            }
+            
+            // Show notification with message
+            notification.textContent = message;
+            notification.style.opacity = '1';
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+            }, 3000);
+        }
+        
+        // Run on page load - FIXED VERSION
+        window.addEventListener("DOMContentLoaded", function() {
+            // First check sessionStorage (primary source now)
+            let currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+            
+            // If not in sessionStorage, check localStorage as fallback (for backwards compatibility)
+            if (!currentUser) {
+                currentUser = JSON.parse(localStorage.getItem("currentUser"));
+                
+                // If found in localStorage but not sessionStorage, copy it to sessionStorage
+                if (currentUser) {
+                    sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+                }
+            }
+            
+            // Now update the display after checking both storage options
+            updateLoginDisplay();
+            
+            // Check if the user is admin or cashier and redirect if needed
+            if (currentUser) {
+                if (currentUser.role === "admin") {
+                    window.location.href = "admin.html";
+                } else if (currentUser.role === "cashier") {
+                    window.location.href = "kasir.html";
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>
